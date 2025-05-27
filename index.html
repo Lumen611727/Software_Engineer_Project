@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monaco Editor Example</title>
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8">
+  <title>Monaco Editor + AST</title>
+  <style>
+    .tree, .tree ul {
+      list-style-type: none;
+      padding-left: 1em;
+      border-left: 1px dotted #ccc;
+    }
+    .tree li {
+      margin: 4px 0;
+      cursor: pointer;
+    }
+    .tree li.collapsed > ul {
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
-    <div id="editor" style="height: 100vh; width: 100vw;"></div>
+  <button id="showAST" style="position:absolute; bottom:10px; right:10px; z-index:10000;">Show AST Tree</button>
+  <button id="save_and_load" style="position:absolute; bottom:10px; right:160px; z-index:10000;">Save/Load</button>
+  <div id="editor" style="height: 100vh; width: 100vw;"></div>
 
-    <!-- Load Monaco Loader Script -->
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+  <div id="astModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:80%; background:white; border:1px solid black; overflow:auto; padding:10px; z-index:9999;">
+    <button onclick="document.getElementById('astModal').style.display='none'">Close</button>
+    <div id="astOutput" class="tree"></div>
+  </div>
 
-    <!-- Load your main JavaScript (which will import other modules) -->
-    <script type="module" src="main.js"></script>
+  <div id="filenameModal" style="display:none; position:fixed; top:10%; left:40%; right:35%; width:20%; height:15%; background:black; border:1px solid white; overflow:auto; padding:10px; z-index:9999;">
+    <button id="save" style="position:absolute; bottom:10px; right:60px; z-index:10000;">Save</button>
+    <button id="load" style="position:absolute; bottom:10px; right:10px; z-index:10000;">Load</button>
+    <button id="close" style="position:absolute; bottom:10px; left:10px; z-index:10000;" onclick="document.getElementById('filenameModal').style.display='none'">Close</button>
 
-  </body>
+    <div style="margin-bottom:10px; color:white">Hint: files will be rewritten if file exist!)</div>
+    <input type="text" id="filenameInput" style="width:100%; margin-bottom:10px;" placeholder="Enter filename (without .c) here...">
+  </div>
+
+  <script src="./dist/bundle.js"></script>
+
+</body>
 </html>
+
